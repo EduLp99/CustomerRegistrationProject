@@ -1,0 +1,26 @@
+﻿@model CustomerRegistration.Models.Address
+
+@{
+    ViewData["Title"] = "Detalhes do Endereço";
+}
+
+<h1>Detalhes do Endereço</h1>
+
+<p><strong>Nome:</strong> @Model.Name</p>
+<p><strong>Tipo:</strong> @Model.Type</p>
+<p><strong>Cidade:</strong> @Model.City</p>
+<p><strong>Estado:</strong> @Model.State</p>
+<p><strong>CEP:</strong> @Model.Cep</p>
+<p>
+    <strong>Cliente:</strong>
+    @if (Model.Customer != null)
+    {
+        @Model.Customer.Name
+    }
+    else
+    {
+        <span>Sem cliente associado</span>
+    }
+</p>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+<a asp-action="List" class="btn btn-secondary">Voltar</a>

@@ -1,0 +1,123 @@
+﻿@model CustomerRegistration.Models.Customer
+
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<h1>Editar Cliente</h1>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label>Nome</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label>Logo Atual</label>
+        @if (Model.Logo != null && Model.Logo.Length > 0)
+        {
+            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Logo)" alt="Logo Atual" style="max-width: 100px; max-height: 100px;" />
+        }
+        else
+        {
+            <span>Sem logo</span>
+        }
+    </div>
+
+    <div>
+        <label>Nova Logo (se desejar alterar)</label>
+        <input type="file" name="logoFile" class="form-control" accept="image/*" />
+    </div>
+
+    <h3>Endereços</h3>
+    <div id="address-container">
+        @for (var i = 0; i < Model.Addresses.Count; i++)
+        {
+            <div class="address">
+                <div>
+                    <label>Nome do Endereço</label>
+                    <input name="Addresses[@i].Id" type="hidden" value="@Model.Addresses[i].Id" />
+                    <input name="Addresses[@i].Name" class="form-control" value="@Model.Addresses[i].Name" />
+                    <span asp-validation-for="Addresses[@i].Name" class="text-danger"></span>
+                </div>
+                <div>
+                    <label>Tipo</label>
+                    <input name="Addresses[@i].Type" class="form-control" value="@Model.Addresses[i].Type" />
+                    <span asp-validation-for="Addresses[@i].Type" class="text-danger"></span>
+                </div>
+                <div>
+                    <label>Cidade</label>
+                    <input name="Addresses[@i].City" class="form-control" value="@Model.Addresses[i].City" />
+                    <span asp-validation-for="Addresses[@i].City" class="text-danger"></span>
+                </div>
+                <div>
+                    <label>Estado</label>
+                    <input name="Addresses[@i].State" class="form-control" value="@Model.Addresses[i].State" />
+                    <span asp-validation-for="Addresses[@i].State" class="text-danger"></span>
+                </div>
+                <div>
+                    <label>Cep</label>
+                    <input name="Addresses[@i].Cep" class="form-control" value="@Model.Addresses[@i].Cep" />
+                    <span asp-validation-for="Addresses[@i].Cep" class="text-danger"></span>
+                </div>
+                <hr />
+            </div>
+        }
+    </div>
+
+    <button type="button" id="add-address" class="btn btn-secondary">Adicionar Novo Endereço</button>
+
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+    <a asp-action="List" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <script>
+        let addressIndex = @Model.Addresses.Count;
+
+        document.getElementById('add-address').addEventListener('click', function () {
+            let container = document.getElementById('address-container');
+            let newAddress = document.createElement('div');
+            newAddress.classList.add('address');
+
+            newAddress.innerHTML = `
+                        <div>
+                            <label>Nome do Endereço</label>
+                            <input name="Addresses[${addressIndex}].Name" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label>Tipo</label>
+                            <input name="Addresses[${addressIndex}].Type" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label>Cidade</label>
+                            <input name="Addresses[${addressIndex}].City" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label>Estado</label>
+                            <input name="Addresses[${addressIndex}].State" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label>Cep</label>
+                            <input name="Addresses[${addressIndex}].Cep" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                    `;
+
+            container.appendChild(newAddress);
+            addressIndex++;
+        });
+    </script>
+}

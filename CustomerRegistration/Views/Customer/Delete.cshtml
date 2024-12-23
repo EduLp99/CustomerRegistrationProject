@@ -1,0 +1,19 @@
+﻿@model CustomerRegistration.Models.Customer
+
+@{
+    ViewData["Title"] = "Excluir Cliente";
+}
+
+<h1>Excluir Cliente</h1>
+
+<p>Tem certeza que deseja excluir o seguinte cliente?</p>
+
+<p><strong>Nome:</strong> @Model.Name</p>
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Logo:</strong> @Model.Logo</p>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a asp-action="List" class="btn btn-secondary">Cancelar</a>
+</form>
